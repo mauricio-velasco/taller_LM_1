@@ -3,8 +3,6 @@ import torch.nn as nn
 import torch.optim as optim
 import random
 
-#ACTIVIDAD 1: Un word2vec minimal
-
 # 1. Generate dummy corpus
 corpus = corpus = [
     "The cat sits on the mat.",
@@ -68,10 +66,9 @@ for sentence in tokenized:
                 context_word = indices[w_pos]
                 data.append((center_word, context_word))
 
-#EJERCICIO 1:
-    #Cuente el numero de data pairs y verifique que su estimacion coincide con el conteo del codigo.
-    #Escriba los primeros tres pares de entrenamiento en palabras.
-    #Modifique el codigo de arriba y construya una ventana mayor.
+#ACTIVIDAD 1:
+    # (1) Cuente el numero de data pairs y verifique que su estimacion coincide con el conteo del codigo.
+    # (2) Escriba los primeros tres pares de entrenamiento en palabras.
 
 
 print(f"Training data pairs: {len(data)}")
@@ -124,13 +121,13 @@ for word in ["dog", "cat", "tree", "car"]:
     embed = model.embeddings(idx).detach().numpy()
     print(f"Embedding for '{word}': {embed}")
 
-#Ejercicio 2: 
-#   Haga un plot de la loss del modelo en el tiempo
-#   Calcule las distancias angulares entre las 4 palabras del ejemplo anterior cuando el modelo esta entrenado
-#   Como cambian sus resultados al modificar la dimension del embedding?
+# ACTIVIDAD 2: 
+#   (1) Haga un plot de la loss function del modelo como funcion de las epocas de entrenamiento. Cuando parar de entrenar?
+#   (2) Calcule las distancias angulares entre las 4 palabras del ejemplo anterior despues de entrenar el modelo
+#   (3) Como cambian sus resultados al modificar la dimension del embedding?
 
 
-# ACTIVIDAD 2: Miramos un word2vec entrenado
+# ACTIVIDAD 3: Jugando con un word2vec Pre-entrenado.
 
 import os
 import gensim.downloader as api
@@ -147,12 +144,13 @@ api.BASE_DIR #Crea un archivo enorme aca que hay que eliminar despues...
 # Now the model is ready to use:
 print("Model loaded!")
 
-# Example usage:
+# (3.1) Ver ejemplo de similaridad...
 similar_words = model.most_similar('queen', topn=15)
 print("Top 5 words similar to 'king':")
 for word, score in similar_words:
     print(f"{word}: {score:.4f}")
-#Example analogy (linear model hypothesis)
+
+# (3.2) Ver ejemplo de analogia (linear language hypothesis)
 result = model.most_similar(positive=['king', 'woman'], negative=['man'], topn=1)
 print("king - man + woman ≈", result[0][0], f"(score: {result[0][1]:.4f})")
 

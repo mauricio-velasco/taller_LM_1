@@ -3,8 +3,6 @@ import torch
 
 # Load the tokenizer and model
 model_name = "distilgpt2"  # A lightweight pretrained transformer
-model_name = "EleutherAI/gpt-neo-125M" # A kind of better model
-model_name = "gpt2-medium"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
 model.eval()
@@ -101,22 +99,34 @@ def top_k_top_p_filtering(logits, top_k=0, top_p=0.0, filter_value=-float('Inf')
 if __name__ == "__main__":
     prompt = "The robot slowly turned its head toward the window, where a red light was"
 
-    next_token_str = "distance"    
+    next_token_str = "blinking"    
     prob = get_next_token_probability(prompt, next_token_str)
     print(f"word: {next_token_str} probability: {prob}")
-
-    next_token_str = "red"    
-    prob = get_next_token_probability(prompt, next_token_str)
-    print(f"word: {next_token_str} probability: {prob}")
-
     
+    #ACTIVIDAD 1: 
+    # (1) Calcule el vector de probabilidades de la siguiente palabra dado el contexto de arriba
+    # (2) Escriba una funcion que genere las siguientes cinco palabras mas probables de manera autorregresiva.
+    # (3) Compare la verosimilitud (promedio) de acuerdo al modelo de las siguientes dos frases
+    frase = "Imagination is more important than knowledge"
+    frase = "If you think you understand quantum mechanics, you do not understand quantum mechanics."
+
+
     print("\nGenerated story:")
     story = generate_story(prompt, max_length=50)
     print(story)
 
+    #ACTIVIDAD 2: 
+    # (1) Genere completaciones del prompt de arriba con tres modelos distintos
+    model_name = "distilgpt2"  # A lightweight pretrained transformer
+    model_name = "EleutherAI/gpt-neo-125M" # A kind of better model
+    model_name = "gpt2-medium"
+    # (2) Modifique el parametro de temperatura (creciendo y decreciendo) y genere de nuevo las completaciones. 
+    # Que sucede cuando la temperatura es muy pequeña y muy grande?
+    # (3) Utilice la metodologia de eval-GPT (con ChatGPT libre) para evaluar las historias generadas por los diferentes modelos en las dimensiones 
+    # propuestas por Eldan
 
-    instruction_prompt = "Continue the story with a vivid and coherent narrative: The robot slowly turned its head toward the window, where a red light was blinking."
-    print("\nGenerated story:")
-    story = generate_story(prompt, max_length=50)
-    print(story)
+
+
+
+
 
